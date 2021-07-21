@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import Input from '../../UI/Input';
 import classes from './MealItemForm.module.css';
@@ -6,12 +6,13 @@ import classes from './MealItemForm.module.css';
 const MealItemForm = (props) => {
   const [amountIsValid, setAmountIsValid] = useState(true);
   const amountInputRef = useRef();
+
   const submitHandler = (event) => {
     event.preventDefault();
-    // expose後就可以使用current內的資訊
+
     const enteredAmount = amountInputRef.current.value;
     const enteredAmountNumber = +enteredAmount;
-    // Validate Input value
+
     if (
       enteredAmount.trim().length === 0 ||
       enteredAmountNumber < 1 ||
@@ -21,18 +22,16 @@ const MealItemForm = (props) => {
       return;
     }
 
-    props.onAddtoCart(enteredAmountNumber);
+    props.onAddToCart(enteredAmountNumber);
   };
 
   return (
     <form className={classes.form} onSubmit={submitHandler}>
-      {/* {因為Input是客製化Component, 所以要使用useRef的話} */}
-      {/* {在Input Component內要使用React.forwardRef() 來expose資訊給這層 */}
       <Input
         ref={amountInputRef}
-        label="Amount"
+        label='Amount'
         input={{
-          id: `amount${props.id}`,
+          id: 'amount',
           type: 'number',
           min: '1',
           max: '5',
@@ -41,7 +40,7 @@ const MealItemForm = (props) => {
         }}
       />
       <button>+ Add</button>
-      {!amountIsValid && <p>Please Enter a valid amount (1-5).</p>}
+      {!amountIsValid && <p>Please enter a valid amount (1-5).</p>}
     </form>
   );
 };
